@@ -1,0 +1,30 @@
+{
+  "name": "bingo-api",
+  "version": "1.0.0",
+  "description": "Rest full API para aplicación de bingo. Genera cartones, permite ingresar bolillas y determinar cartón ganador.",
+  "main": "index.js",
+  "repository": "https://github.com/tisoler/bingo-api.git",
+  "author": "tisoler",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "rm -rf dist/ && tsc",
+    "start": "node ./dist/index.js",
+    "dev": "ts-node-dev --respawn src/index.ts"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "@types/mysql": "^2.15.21",
+    "@types/node": "^18.15.3",
+    "nodemon": "^2.0.21",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.0.2"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mysql": "^2.18.1"
+  }
+}
