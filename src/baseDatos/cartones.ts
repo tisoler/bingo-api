@@ -10,6 +10,10 @@ export interface CartonDB {
   numeros: string,
 }
 
+export interface PayloadCartonesParaJugada {
+	limiteMaximo?: number,
+}
+
 export const ObtenerCartonesParaJugadaBD = async (idJugada: number): Promise<CartonDB[]> => {
   return new Promise((resolve, reject)=> {
     const poolConexion = ConexionBaseDatos.obtenerPoolConexion()
@@ -34,8 +38,8 @@ export const InsertarCartonesBD = async (cartones: CartonDB[]): Promise<CartonDB
   return new Promise((resolve, reject)=> {
     const poolConexion = ConexionBaseDatos.obtenerPoolConexion()
     if (!poolConexion) return reject('No hay conexión a la base de datos')
-
 		if (!cartones.length) return reject('No hay cartones para insertar.')
+
 		const valores = cartones.map(
 			carton => `(${carton.numeroSerie}, ${carton.idJugada}, '${carton.comprador ?? ''}', ${!!carton.ganadorLinea}, ${!!carton.ganadorBingo}, '${carton.numeros}')`
 		)

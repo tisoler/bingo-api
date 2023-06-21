@@ -1,4 +1,5 @@
-import { ObtenerCartonesParaJugadaBD, CartonDB, InsertarCartonesBD } from '../baseDatos/cartones'
+import { ObtenerCartonesParaJugadaBD, CartonDB, InsertarCartonesBD, PayloadCartonesParaJugada } from '../baseDatos/cartones'
+import { ObtenerJugadasBD } from '../baseDatos/jugadas'
 
 export const ObtenerCartonesParaJugada = async (idJugada: number): Promise<CartonDB[]> => {
   const cartones: CartonDB[] = await ObtenerCartonesParaJugadaBD(idJugada)
@@ -10,10 +11,14 @@ export const ObtenerCartonesParaJugada = async (idJugada: number): Promise<Carto
   return cartones
 }
 
-export const GenerarCartonesParaJugada = async (idJugada: number, limiteMaximo = 5000): Promise<CartonDB[]> => {
+export const GenerarCartonesParaJugada = async (idJugada: number, payload: PayloadCartonesParaJugada): Promise<CartonDB[]> => {
+	const jugadas = await ObtenerJugadasBD()
+	if (!jugadas.length && !jugadas.some(j => j.id === idJugada)) throw Error(`No hay jugada con id: ${idJugada}`)
+
 	const cartonesExistentes: CartonDB[] = await ObtenerCartonesParaJugadaBD(idJugada)
 	let proximoNumeroSerie = cartonesExistentes?.length ? (cartonesExistentes.slice(-1)[0]?.numeroSerie ?? 0) + 1 : 1
 	const nuevosCartones: CartonDB[] = []
+	const limiteMaximo = payload.limiteMaximo ?? 5000
 
 	// Generar los x cartones
 	for (let i = 0; i < limiteMaximo; i++) {
